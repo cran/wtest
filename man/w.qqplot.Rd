@@ -4,11 +4,13 @@
 \alias{w.qqplot}
 \title{plots for w p-values diagnosis}
 \usage{
-w.qqplot(data, w.order = c(1, 2), input.poolsize = 50,
+w.qqplot(data, y, w.order = c(1, 2), input.poolsize = 100,
   hf1 = "default.hf1", hf2 = "default.hf2", ...)
 }
 \arguments{
 \item{data}{a data frame or matrix contains genotypes in the columns. Genotypes should be coded as (0, 1, 2) or (0, 1).}
+
+\item{y}{a numeric vector composed of 0 or 1; or a factor variable with two levels.}
 
 \item{w.order}{a numeric number taking values 1 or 2. If w.order = 1, main effect is calculated. If w.order = 2, pairwise interaction effect is calculated.}
 
@@ -33,7 +35,11 @@ The input.poolsize is suggested to set as 1000 for w.order = 1 and 200 for w.ord
 }
 \examples{
 data(mydata)
-w.qqplot(mydata,w.order=2,cex=.5)
+data(phenotype)
+## Step 1. HF Calculation. 
+# Please note that parameter B is recommended to be greater than 400. 
+hf1<-hf.calculation(data = mydata, w.order = 1, B = 200)
+
+w.qqplot(mydata, phenotype, w.order=1, hf1 = hf1, cex=.5)
 abline(0,1)
 }
-

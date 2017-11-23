@@ -27,4 +27,3 @@ data(phenotype)
 y<-as.numeric(phenotype)
 result <- odds.ratio(mydata,y,w.order=2,which.pair=c(4,8))
 }
-

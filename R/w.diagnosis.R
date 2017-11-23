@@ -37,9 +37,10 @@ w.null<-function(index,w.order,n.sample,n.marker,data,hf){
 #'
 #' @examples
 #' data(mydata)
+#' # Please note that parameter B is recommended to be greater than 400.
 #' hf1<-hf.calculation(data = mydata, w.order = 1, B = 100)
 #' hf2<-hf.calculation(data = mydata, w.order = 2, B = 50)
-#' w.diagnosis(mydata, w.order = 1, n.rep = 200, hf1 = hf1, main=NULL, xlab=NULL, ylab=NULL)
+#' w.diagnosis(mydata, w.order = 1, n.rep = 100, hf1 = hf1, main=NULL, xlab=NULL, ylab=NULL)
 #' w.diagnosis(mydata, w.order = 2, n.rep = 100, hf2 = hf2, main=NULL, xlab=NULL, ylab=NULL)
 #' @export
 #' @author Rui Sun, Maggie Haitian Wang

@@ -6,7 +6,7 @@
 \usage{
 wtest(data, y, w.order = c(1, 2), hf1 = "default.hf1",
   hf2 = "default.hf2", which.pair = NULL, output.pval = NULL,
-  sort = TRUE, input.pval = 0.1, input.poolsize = 50)
+  sort = TRUE, input.pval = 0.1, input.poolsize = 150)
 }
 \arguments{
 \item{data}{a data frame or matrix contains genotypes in the columns. Genotypes should be coded as (0, 1, 2) or (0, 1).}
@@ -66,14 +66,17 @@ number of variables to calculated pairwise effect exhaustively, selected by smal
 \examples{
 data(mydata)
 data(phenotype)
+
+## Step 1. HF Calculation. 
+# Please note that parameter B is recommended to be greater than 400. 
 hf1<-hf.calculation(data = mydata, w.order = 1, B = 100)
 hf2<-hf.calculation(data = mydata, w.order = 2, B = 50)
+
+## Step 2. Application
 w1<-wtest(mydata, phenotype, w.order=1, hf1 = hf1)
-w2<-wtest(mydata, phenotype, w.order=2, input.pval = 0.5, output.pval = 0.01, hf1 = hf1, hf2 = hf2)
+w2<-wtest(mydata, phenotype, w.order=2, input.pval = 0.3, 
+          input.poolsize = 50, output.pval = 0.01, hf1 = hf1, hf2 = hf2)
 w.pair<-wtest(mydata, phenotype, w.order=2, which.pair=c(10,13), hf2 = hf2)
-}
-\author{
-Rui Sun, Maggie Haitian Wang
 }
 \references{
 Maggie Haitian Wang, Rui Sun, Junfeng Guo, Haoyi Weng, Jack Lee, Inchi Hu, Pak Sham and Benny C.Y. Zee (2016). A fast and powerful W-test for pairwise epistasis testing. Nucleic Acids Research.doi:10.1093/nar/gkw347.
@@ -81,4 +84,6 @@ Maggie Haitian Wang, Rui Sun, Junfeng Guo, Haoyi Weng, Jack Lee, Inchi Hu, Pak S
 \seealso{
 \code{\link{hf.calculation}}, \code{\link{w.diagnosis}}, \code{\link{w.qqplot}}
 }
-
+\author{
+Rui Sun, Maggie Haitian Wang
+}

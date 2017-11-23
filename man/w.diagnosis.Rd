@@ -33,13 +33,11 @@ Since h and f are dataset adaptive, estimated hf is strongly recommended.}
 }
 \examples{
 data(mydata)
+# Please note that parameter B is recommended to be greater than 400.
 hf1<-hf.calculation(data = mydata, w.order = 1, B = 100)
 hf2<-hf.calculation(data = mydata, w.order = 2, B = 50)
-w.diagnosis(mydata, w.order = 1, n.rep = 200, hf1 = hf1, main=NULL, xlab=NULL, ylab=NULL)
+w.diagnosis(mydata, w.order = 1, n.rep = 100, hf1 = hf1, main=NULL, xlab=NULL, ylab=NULL)
 w.diagnosis(mydata, w.order = 2, n.rep = 100, hf2 = hf2, main=NULL, xlab=NULL, ylab=NULL)
-}
-\author{
-Rui Sun, Maggie Haitian Wang
 }
 \references{
 Maggie Haitian Wang, Rui Sun, Junfeng Guo, Haoyi Weng, Jack Lee, Inchi Hu, Pak Sham and Benny C.Y. Zee (2016). A fast and powerful W-test for pairwise epistasis testing. Nucleic Acids Research.doi:10.1093/nar/gkw347.
@@ -47,4 +45,6 @@ Maggie Haitian Wang, Rui Sun, Junfeng Guo, Haoyi Weng, Jack Lee, Inchi Hu, Pak S
 \seealso{
 \code{\link{wtest}}, \code{\link{hf.calculation}}, \code{\link{w.qqplot}}
 }
-
+\author{
+Rui Sun, Maggie Haitian Wang
+}

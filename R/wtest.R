@@ -43,10 +43,16 @@
 #' @examples
 #' data(mydata)
 #' data(phenotype)
+#' 
+#' ## Step 1. HF Calculation. 
+#' # Please note that parameter B is recommended to be greater than 400. 
 #' hf1<-hf.calculation(data = mydata, w.order = 1, B = 100)
 #' hf2<-hf.calculation(data = mydata, w.order = 2, B = 50)
+#' 
+#' ## Step 2. Application
 #' w1<-wtest(mydata, phenotype, w.order=1, hf1 = hf1)
-#' w2<-wtest(mydata, phenotype, w.order=2, input.pval = 0.5, output.pval = 0.01, hf1 = hf1, hf2 = hf2)
+#' w2<-wtest(mydata, phenotype, w.order=2, input.pval = 0.3, 
+#'           input.poolsize = 50, output.pval = 0.01, hf1 = hf1, hf2 = hf2)
 #' w.pair<-wtest(mydata, phenotype, w.order=2, which.pair=c(10,13), hf2 = hf2)
 #' @export
 #' @author Rui Sun, Maggie Haitian Wang
@@ -56,7 +62,7 @@
 #' @importFrom stats pchisq
 
 wtest<-function(data,y,w.order=c(1,2),hf1="default.hf1",hf2="default.hf2",
-                which.pair=NULL,output.pval=NULL,sort=TRUE,input.pval=0.10,input.poolsize=50){
+                which.pair=NULL,output.pval=NULL,sort=TRUE,input.pval=0.10,input.poolsize=150){
   suppressWarnings(if(hf1=="default.hf1"){hf1=array(c(0.5,0.667,1,2),dim=c(2,2))}else{hf1=hf1[,2:3]})
   suppressWarnings(if(hf2=="default.hf2"){hf2=array(c(0.5,0.667,0.75,0.8,0.833,0.857,0.875,0.889,1:8),dim=c(8,2))}else{hf2=hf2[,2:3]})
   if(is.data.frame(data))

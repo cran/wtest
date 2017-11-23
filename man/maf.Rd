@@ -21,4 +21,3 @@ Function to calculate minor allele frequencies.
 data(mydata)
 result<-maf(mydata, which.marker=10)
 }
-

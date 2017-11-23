@@ -38,7 +38,7 @@ W.null.calculate.for.hf<-function(w.order,n.sample,n.marker,data){
 #' Parameters calculation for adjustment of W-test
 #'
 #' @description Function to estimate parameters (h and f) for \code{W-test}
-#' @param B a numeric number specify the number of replicates
+#' @param B a numeric number specify the number of replicates. Default is 400.
 #' @param data a data frame or matrix contains genotypes in the columns. Genotypes should be coded as (0, 1, 2) or (0, 1).
 #' @param w.order a numeric number taking values 1 or 2. If \code{w.order} = 1, main effect is calculated. If \code{w.order} = 2, pairwise interaction effect is calculated.
 #' @param n.sample a numeric number specify the number of samples to be involved for estimating parameters. Default is the total number of samples in the data.
@@ -46,6 +46,8 @@ W.null.calculate.for.hf<-function(w.order,n.sample,n.marker,data){
 #' @return a set of parameters indexed by k, obtained automatically. For main effect, k is the number of levels of a predictor variable. For pairwise interactions, k is the number of categorical combinations of a pair.
 #' @examples
 #' data(mydata)
+#' 
+#' # Please note that parameter B is recommended to be greater than 400. 
 #' hf1<-hf.calculation(data = mydata, w.order = 1, B = 100)
 #' hf2<-hf.calculation(data = mydata, w.order = 2, B = 80)
 #' @export
@@ -55,7 +57,7 @@ W.null.calculate.for.hf<-function(w.order,n.sample,n.marker,data){
 #' @importFrom utils combn
 #' @importFrom stats var
 
-hf.calculation<-function(data,w.order,B,n.sample=nrow(data),n.marker="default.nmarker"){
+hf.calculation<-function(data,w.order,B=400,n.sample=nrow(data),n.marker="default.nmarker"){
   suppressWarnings(if(n.marker=="default.nmarker") n.marker<-ifelse(w.order==1,1000,50))
   n.marker<-min(ncol(data),n.marker)
   if(is.data.frame(data))

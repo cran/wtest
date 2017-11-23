@@ -4,7 +4,7 @@
 \alias{hf.calculation}
 \title{Parameters calculation for adjustment of W-test}
 \usage{
-hf.calculation(data, w.order, B, n.sample = nrow(data),
+hf.calculation(data, w.order, B = 400, n.sample = nrow(data),
   n.marker = "default.nmarker")
 }
 \arguments{
@@ -12,7 +12,7 @@ hf.calculation(data, w.order, B, n.sample = nrow(data),
 
 \item{w.order}{a numeric number taking values 1 or 2. If \code{w.order} = 1, main effect is calculated. If \code{w.order} = 2, pairwise interaction effect is calculated.}
 
-\item{B}{a numeric number specify the number of replicates}
+\item{B}{a numeric number specify the number of replicates. Default is 400.}
 
 \item{n.sample}{a numeric number specify the number of samples to be involved for estimating parameters. Default is the total number of samples in the data.}
 
@@ -26,11 +26,10 @@ Function to estimate parameters (h and f) for \code{W-test}
 }
 \examples{
 data(mydata)
+
+# Please note that parameter B is recommended to be greater than 400. 
 hf1<-hf.calculation(data = mydata, w.order = 1, B = 100)
 hf2<-hf.calculation(data = mydata, w.order = 2, B = 80)
-}
-\author{
-Rui Sun, Maggie Haitian Wang
 }
 \references{
 Maggie Haitian Wang, Rui Sun, Junfeng Guo, Haoyi Weng, Jack Lee, Inchi Hu, Pak Sham and Benny C.Y. Zee (2016). A fast and powerful W-test for pairwise epistasis testing. Nucleic Acids Research.doi:10.1093/nar/gkw347.
@@ -38,4 +37,6 @@ Maggie Haitian Wang, Rui Sun, Junfeng Guo, Haoyi Weng, Jack Lee, Inchi Hu, Pak S
 \seealso{
 \code{\link{wtest}}, \code{\link{w.diagnosis}}, \code{\link{w.qqplot}}
 }
-
+\author{
+Rui Sun, Maggie Haitian Wang
+}
