@@ -1,5 +1,5 @@
 Mean.Variance.calculation.by.K<-function(k,data,w.order){
-  df.column<-ifelse(w.order==1,3,4)
+  df.column<-w.order+2
   x2.column<-df.column-1
   mean.mv<-mean(data[which(data[,df.column]==k),x2.column])
   var.mv<-var(data[which(data[,df.column]==k),x2.column])
@@ -19,11 +19,11 @@ W.null.calculate.for.hf<-function(w.order,n.sample,n.marker,data){
   y<-sample(0:1,n.sample,replace=T)
   w.order<-unlist(w.order)
   set<-apply(t(combn(n.marker,w.order)),1,list)
-  result<-lapply(set,x2,data,y,w.order)
+  result<-lapply(set,x2.high,data,y,w.order)
   result.all<-do.call(rbind,result)
-  k.row<-ifelse(w.order==1,2,8)
+  k.row<-3^w.order-1
   mean.variance<-array(0,dim=c(k.row,2))
-  df.column<-ifelse(w.order==1,3,4)
+  df.column<-w.order+2
   k.min<-min(result.all[,df.column])
   k.max<-max(result.all[,df.column])
   for(i in k.min:k.max){
@@ -37,19 +37,20 @@ W.null.calculate.for.hf<-function(w.order,n.sample,n.marker,data){
 
 #' Parameters calculation for adjustment of W-test
 #'
-#' @description Function to estimate parameters (h and f) for \code{W-test}
+#' @description Function to estimate parameters (\emph{h} and \emph{f}) for \code{W-test}
 #' @param B a numeric number specify the number of replicates. Default is 400.
 #' @param data a data frame or matrix contains genotypes in the columns. Genotypes should be coded as (0, 1, 2) or (0, 1).
 #' @param w.order a numeric number taking values 1 or 2. If \code{w.order} = 1, main effect is calculated. If \code{w.order} = 2, pairwise interaction effect is calculated.
 #' @param n.sample a numeric number specify the number of samples to be involved for estimating parameters. Default is the total number of samples in the data.
-#' @param n.marker a numeric number specify the number of snps to be involved for estimating parameters. a numeric value, the number of biomarkers to use in bootstrapping. Default is the minumn value of total number of markers and 1,000 markers for order =1, and 50 markers for order =2.
-#' @return a set of parameters indexed by k, obtained automatically. For main effect, k is the number of levels of a predictor variable. For pairwise interactions, k is the number of categorical combinations of a pair.
+#' @param n.marker a numeric value, the number of biomarkers to use in bootstrapping. Default is the minumn value of total number of markers and 1,000 markers for order =1, and 50 markers for order =2.
+#' @return a set of parameters indexed by \emph{k}, obtained automatically. For main effect, \emph{k} is the number of levels of a predictor variable. For pairwise interactions, \emph{k} is the number of categorical combinations of a pair.
 #' @examples
 #' data(mydata)
-#' 
-#' # Please note that parameter B is recommended to be greater than 400. 
-#' hf1<-hf.calculation(data = mydata, w.order = 1, B = 100)
-#' hf2<-hf.calculation(data = mydata, w.order = 2, B = 80)
+#'
+#' # Please note that parameter B is recommended to be greater than 400.
+#' # For high order interaction analysis (w.order > 2), it is recommended to use default n.sample.
+#' hf1<-hf(data = mydata, w.order = 1, B = 100)
+#' hf2<-hf(data = mydata, w.order = 2, B = 80)
 #' @export
 #' @author Rui Sun, Maggie Haitian Wang
 #' @references Maggie Haitian Wang, Rui Sun, Junfeng Guo, Haoyi Weng, Jack Lee, Inchi Hu, Pak Sham and Benny C.Y. Zee (2016). A fast and powerful W-test for pairwise epistasis testing. Nucleic Acids Research.doi:10.1093/nar/gkw347.
@@ -57,8 +58,8 @@ W.null.calculate.for.hf<-function(w.order,n.sample,n.marker,data){
 #' @importFrom utils combn
 #' @importFrom stats var
 
-hf.calculation<-function(data,w.order,B=400,n.sample=nrow(data),n.marker="default.nmarker"){
-  suppressWarnings(if(n.marker=="default.nmarker") n.marker<-ifelse(w.order==1,1000,50))
+hf<-function(data,w.order,B=400,n.sample=nrow(data),n.marker="default.nmarker"){
+  suppressWarnings(if(typeof(n.marker)=="character") n.marker<-ifelse(w.order==1,1000,50))
   n.marker<-min(ncol(data),n.marker)
   if(is.data.frame(data))
     data<-as.matrix(data)

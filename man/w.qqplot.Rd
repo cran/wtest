@@ -16,9 +16,9 @@ w.qqplot(data, y, w.order = c(1, 2), input.poolsize = 100,
 
 \item{input.poolsize}{a numeric number; The maximum number of values used to calculate first or second order effects. The default is 200.}
 
-\item{hf1}{a data frame or matrix, specifying the h and f parameters for order 1 calculation. Default values = HF1= array(c(0.5,0.667,1,2), dim=c(2,2)).}
+\item{hf1}{a data frame or matrix, contains the \emph{h} and \emph{f} values for main effect (w.order =1) calculation at the number of categorical combinations (\emph{k}) = 2 or 3. Default \emph{hf1} is \emph{h} = \emph{k}/(\emph{k}-1) and \emph{f} = \emph{k}-1, where \emph{k} = 2 to 3, in which the first row is the \emph{h} and \emph{f} for \emph{k} = 2, and second row is the \emph{h} and \emph{f} for \emph{k} = 3.}
 
-\item{hf2}{a data frame or matrix, specifying the h and f parameters for order 2 calculation. Default values = HF2 = array(c(0.5,0.667,0.75,0.8,0.833,0.857,0.875,0.889,1:8), dim=c(8,2)).}
+\item{hf2}{a data frame or matrix, contains the \emph{h} and \emph{f} values for pairwise interaction effect calculation (w.order=2) when \emph{k} = 2 to 9. Default \emph{hf2} is \emph{h} = \emph{k}/(\emph{k}-1) and \emph{f} = \emph{k}-1, where \emph{k} = 2 to 9, the first row is the \emph{h} and \emph{f} for \emph{k} = 2, and the last row is the \emph{h} and \emph{f} for \emph{k} = 9.}
 
 \item{...}{graphical parameters.}
 }
@@ -29,17 +29,17 @@ Q-Q plot
 To draw a Q-Q plot for W-test
 }
 \details{
-The Q-Q plot for W-test is to use a set of randomly generated y as phenotype, to test its null distribution compared with chi-square distribution. To fit different type of data and adjust the distribution, h and f parameters are strongly recommended to calculate instead of the default hf1 and hf2 for first and second order, respectively.
+The Q-Q plot for W-test is to use a set of randomly generated y as phenotype, to test its null distribution compared with chi-square distribution. To fit different type of data and adjust the distribution, \emph{h} and \emph{f} parameters are strongly recommended to calculate instead of the default \emph{hf1} and \emph{hf2} for first and second order, respectively.
 
 The input.poolsize is suggested to set as 1000 for w.order = 1 and 200 for w.order = 2.
 }
 \examples{
 data(mydata)
-data(phenotype)
-## Step 1. HF Calculation. 
-# Please note that parameter B is recommended to be greater than 400. 
-hf1<-hf.calculation(data = mydata, w.order = 1, B = 200)
+data(phenotype1)
+## Step 1. HF Calculation.
+# Please note that parameter B is recommended to be greater than 400.
+hf1<-hf(data = mydata, w.order = 1, B = 200)
 
-w.qqplot(mydata, phenotype, w.order=1, hf1 = hf1, cex=.5)
+w.qqplot(data = mydata, y = phenotype1, w.order = 1, hf1 = hf1, cex =.5)
 abline(0,1)
 }

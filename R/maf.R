@@ -8,6 +8,7 @@
 #' data(mydata)
 #' result<-maf(mydata, which.marker=10)
 #' @export
+
 maf<-function(data,which.marker=NULL){
   if(!is.null(which.marker) & !is.numeric(which.marker))
     stop("the 'which.marker' should be numeric!")

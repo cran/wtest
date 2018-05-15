@@ -1,13 +1,11 @@
-x2<-function(set,data,y,w.order){
+x2.set<-function(set,data,data.methylation,y){
   set<- unlist(set)
-  snps<-data[,set]
-  if(w.order==1){
-    O.table<-table.e1(snps,y)
-    O.orginal<-array(O.table,dim=c(3,2))
-  }else{
-    O.table<-table.e2(snps[,1],snps[,2],y)
-    O.orginal<-array(O.table,dim=c(9,2))
-  }
+  snps<-data[,set[1]]
+  cpg<-data.methylation[,set[2]]
+
+  O.table<-table.e2(snps,cpg,y)
+  O.orginal<-array(O.table,dim=c(9,2))
+
   O<-O.orginal[rowSums(O.orginal)!=0,]
   df<-NROW(O)-1
   if(df == 0)

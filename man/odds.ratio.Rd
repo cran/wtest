@@ -23,7 +23,7 @@ Function to calculate odds ratio of both main effect and pair wise interaction. 
 }
 \examples{
 data(mydata)
-data(phenotype)
-y<-as.numeric(phenotype)
+data(phenotype1)
+y<-as.numeric(phenotype1)
 result <- odds.ratio(mydata,y,w.order=2,which.pair=c(4,8))
 }

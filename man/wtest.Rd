@@ -15,9 +15,9 @@ wtest(data, y, w.order = c(1, 2), hf1 = "default.hf1",
 
 \item{w.order}{an integer value of 0 or 1. \code{w.order} = 1 for main effect calculation; \code{w.order} = 2, for pairwise calculation.}
 
-\item{hf1}{a data frame or matrix, contains the h and f values for main effect (\code{w.order} =1) calculation at the number of categorical combinations (k) = 2 or 3. \code{Default.hf1} = array(c(0.5, 0.667, 1, 2), dim=c(2,2)), in which the first row is the h and f for k=2, and second row is the h and f for k=3.}
+\item{hf1}{a data frame or matrix, contains the \emph{h} and \emph{f} values for main effect (w.order =1) calculation at the number of categorical combinations (\emph{k}) = 2 or 3. Default \emph{hf1} is \emph{h} = \emph{k}/(\emph{k}-1) and \emph{f} = \emph{k}-1, where \emph{k} = 2 to 3, in which the first row is the \emph{h} and \emph{f} for \emph{k} = 2, and second row is the \emph{h} and \emph{f} for \emph{k} = 3.}
 
-\item{hf2}{a data frame or matrix, contains the h and f values for pairwise interaction effect calculation (\code{w.order}=2) when k = 2 to 9. \code{Default.hf2} = array(c(0.5, 0.667, 0.75, 0.8, 0.833, 0.857, 0.875, 0.889, 1:8), dim=c(8,2)), the first row is the h and f for k=2, and the last row is the h and f for k=9.}
+\item{hf2}{a data frame or matrix, contains the \emph{h} and \emph{f} values for pairwise interaction effect calculation (w.order=2) when \emph{k} = 2 to 9. Default \emph{hf2} is \emph{h} = \emph{k}/(\emph{k}-1) and \emph{f} = \emph{k}-1, where \emph{k} = 2 to 9, the first row is the \emph{h} and \emph{f} for \emph{k} = 2, and the last row is the \emph{h} and \emph{f} for \emph{k} = 9.}
 
 \item{which.pair}{a numeric vector, with length = \code{w.order}. It contains the column number of the variable set to calculate. If which.pair is specified, the w.value for that set is returned. Default \code{which.pair} = NULL, when main or interaction effect will be calculated exhaustively.}
 
@@ -34,11 +34,11 @@ An object \code{"wtest"} containing:
 
 \item{order}{the "w.order" specified.}
 
-\item{results}{When order = 1, the test results include: the ID of SNP, the W value, k, and p value. When order = 2 and which.pair = NULL, the test results include: (for pair, column 1-3) [ pair name, W-value, k, p-value]; (for first variable in the pair, column 4-6) [W-value, k, p-value ]; (for second variable in the pair, column 7-8) [W-value, k, p-value].}
+\item{results}{When order = 1, the test results include: the ID of SNP, the W value, \emph{k}, and p value. When order = 2 and which.pair = NULL, the test results include: (for pair, column 1-3) [pair name, W-value, k, p-value]; (for first variable in the pair, column 4-6) [W-value, k, p-value]; (for second variable in the pair, column 7-8) [W-value, k, p-value].}
 
-\item{hf1}{The h and f values used in main effect calculation.}
+\item{hf1}{The \emph{h} and \emph{f} values used in main effect calculation.}
 
-\item{hf2}{The h and f values used in pairwise calculation.}
+\item{hf2}{The \emph{h} and \emph{f} values used in pairwise calculation.}
 }
 \description{
 {This function performs the \code{W-test} to calculate main effect or pairwise interactions in case-control studies
@@ -47,16 +47,16 @@ log of odds ratio. It follows a chi-squared probability distribution with data-a
 calculation, the user has 3 options: (1) calculate a single pair's W-value, (2) calculate pairwise interaction for a list of variables,
 which p-values are smaller than a threshold (\code{input.pval}); (3) calculate the pairwise interaction exhaustively for all variables.
 For both main effect and interaction effect calculation, the output can be filtered by p-values, such that only sets with smaller p-value
-than a threshold (\code{output.pval}) will be returned.}
+than a threshold (\code{output.pval}) will be returned. The W-test is also available for rare variant analysis in \code{zfa} package.}
 }
 \details{
 {W-test is a model-free statistical test to measure main effect or pairwise interactions in case-control studies with categorical variables.
-Theoretically, the test statistic follows a Chi-squared distribution with f degrees of freedom. The data-adaptive degree of freedom f,
-and a scalar h in the test statistics allow the W-test to correct for distributional bias due to sparse data and small sample size.
-Let k be the number of columns of the 2 by k contingency table formed by a single variable or a variable pair.
-When the sample size is large and there is no population stratification, the h and f will approximate well to the theoretical
-value h = (k-1)/k, and f = k-1. When sample size is small and there is population stratification, the h and
-f will vary to correct for distributional bias caused by the data structure.}
+Theoretically, the test statistic follows a Chi-squared distribution with \emph{f} degrees of freedom. The data-adaptive degree of freedom \emph{f},
+and a scalar \emph{h} in the test statistics allow the W-test to correct for distributional bias due to sparse data and small sample size.
+Let \emph{k} be the number of columns of the 2 by \emph{k} contingency table formed by a single variable or a variable pair.
+When the sample size is large and there is no population stratification, the \emph{h} and \emph{f} will approximate well to the theoretical
+value \emph{h} = (\emph{k}-1)/\emph{k}, and \emph{f} = \emph{k}-1. When sample size is small and there is population stratification, the \emph{h} and
+\emph{f} will vary to correct for distributional bias caused by the data structure.}
 
 {When \code{w.order} =2, the \code{wtest()} will automatically calculate the main effect first and then do a pre-filter before calculating interactions.
 This filtering is to avoid overloading the memory before having a better understanding of the data. User can specify a smaller input.pval such as 0.05 or 0.001
@@ -65,24 +65,26 @@ number of variables to calculated pairwise effect exhaustively, selected by smal
 }
 \examples{
 data(mydata)
-data(phenotype)
+data(phenotype1)
 
-## Step 1. HF Calculation. 
-# Please note that parameter B is recommended to be greater than 400. 
-hf1<-hf.calculation(data = mydata, w.order = 1, B = 100)
-hf2<-hf.calculation(data = mydata, w.order = 2, B = 50)
+## Step 1. HF Calculation.
+# Please note that parameter B is recommended to be greater than 400.
+hf1 <- hf(data = mydata, w.order = 1, B = 100)
+hf2 <- hf(data = mydata, w.order = 2, B = 50)
 
 ## Step 2. Application
-w1<-wtest(mydata, phenotype, w.order=1, hf1 = hf1)
-w2<-wtest(mydata, phenotype, w.order=2, input.pval = 0.3, 
-          input.poolsize = 50, output.pval = 0.01, hf1 = hf1, hf2 = hf2)
-w.pair<-wtest(mydata, phenotype, w.order=2, which.pair=c(10,13), hf2 = hf2)
+w1 <- wtest(mydata, phenotype1, w.order = 1, hf1 = hf1)
+w2 <- wtest(mydata, phenotype1, w.order = 2, input.pval = 0.3,
+            input.poolsize = 50, output.pval = 0.01, hf1 = hf1, hf2 = hf2)
+w.pair <- wtest(mydata, phenotype1, w.order = 2, which.pair = c(10,13), hf2 = hf2)
 }
 \references{
 Maggie Haitian Wang, Rui Sun, Junfeng Guo, Haoyi Weng, Jack Lee, Inchi Hu, Pak Sham and Benny C.Y. Zee (2016). A fast and powerful W-test for pairwise epistasis testing. Nucleic Acids Research.doi:10.1093/nar/gkw347.
+
+Maggie Haitian Wang, Haoyi Weng, Rui Sun, Jack Lee, William K.K. Wu, Ka Chun Chong, Benny C.Y. Zee. (2017). A Zoom-Focus algorithm (ZFA) to locate the optimal testing region for rare variant association tests. Bioinformatics, 33(15), 2330-2336.
 }
 \seealso{
-\code{\link{hf.calculation}}, \code{\link{w.diagnosis}}, \code{\link{w.qqplot}}
+\code{\link{hf}}, \code{\link{w.diagnosis}}, \code{\link{w.qqplot}}
 }
 \author{
 Rui Sun, Maggie Haitian Wang

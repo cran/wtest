@@ -1,5 +1,5 @@
-\name{phenotype}
-\alias{phenotype}
+\name{phenotype1}
+\alias{phenotype1}
 \docType{data}
 \title{
 A real response variable of the type II diabetes genotype dataset.
@@ -7,7 +7,7 @@ A real response variable of the type II diabetes genotype dataset.
 \description{
 A binary variable indicate the status of 115 individuals (1 = affacted, 0 = unaffacted).
 }
-\usage{data(phenotype)}
+\usage{data(phenotype1)}
 \format{
   The format is:
  115 rows and 1 column.

@@ -18,9 +18,9 @@ w.diagnosis(data, w.order = c(1, 2), n.rep = 10, n.sample = nrow(data),
 
 \item{n.marker}{a numeric value, the number of markers to use in bootstrapping. Default is the total number of markers.}
 
-\item{hf1}{a data frame or matrix, contains the h and f values for main effect (w.order =1) calculation at the number of categorical combinations (k) = 2 or 3. Default.hf1= array(c(0.5, 0.667, 1, 2), dim=c(2,2)), in which the first row is the h and f for k=2, and second row is the h and f for k=3.}
+\item{hf1}{a data frame or matrix, contains the \emph{h} and \emph{f} values for main effect (w.order =1) calculation at the number of categorical combinations (\emph{k}) = 2 or 3. Default \emph{hf1} is \emph{h} = \emph{k}/(\emph{k}-1) and \emph{f} = \emph{k}-1, where \emph{k} = 2 to 3, in which the first row is the \emph{h} and \emph{f} for \emph{k} = 2, and second row is the \emph{h} and \emph{f} for \emph{k} = 3.}
 
-\item{hf2}{a data frame or matrix, contains the h and f values for pairwise interaction effect calculation (w.order=2) when k = 2 to 9. Default.hf2 = array(c(0.5, 0.667, 0.75, 0.8, 0.833, 0.857, 0.875, 0.889, 1:8), dim=c(8,2)), the first row is the h and f for k=2, and the last row is the h and f for k=9.}
+\item{hf2}{a data frame or matrix, contains the \emph{h} and \emph{f} values for pairwise interaction effect calculation (w.order=2) when \emph{k} = 2 to 9. Default \emph{hf2} is \emph{h} = \emph{k}/(\emph{k}-1) and \emph{f} = \emph{k}-1, where \emph{k} = 2 to 9, the first row is the \emph{h} and \emph{f} for \emph{k} = 2, and the last row is the \emph{h} and \emph{f} for \emph{k} = 9.}
 
 \item{...}{graphical parameters.}
 }
@@ -28,14 +28,14 @@ w.diagnosis(data, w.order = c(1, 2), n.rep = 10, n.sample = nrow(data),
 Function to plot the distribution of w values against its theoretical distribution for W-test diagnosis.
 }
 \details{
-{This function evaluates the input w values of main or interaction effects using a set of null Y by the \code{W-test}, and plots the w values probabilities against its theoretical Chi-squared distribution density with f degrees of freedom indexed by k.
-Since h and f are dataset adaptive, estimated hf is strongly recommended.}
+{This function evaluates the input w values of main or interaction effects using a set of null Y by the \code{W-test}, and plots the w values probabilities against its theoretical Chi-squared distribution density with \emph{f} degrees of freedom indexed by \emph{k}.
+Since \emph{h} and \emph{f} are dataset adaptive, estimated hf is strongly recommended.}
 }
 \examples{
 data(mydata)
 # Please note that parameter B is recommended to be greater than 400.
-hf1<-hf.calculation(data = mydata, w.order = 1, B = 100)
-hf2<-hf.calculation(data = mydata, w.order = 2, B = 50)
+hf1<-hf(data = mydata, w.order = 1, B = 100)
+hf2<-hf(data = mydata, w.order = 2, B = 50)
 w.diagnosis(mydata, w.order = 1, n.rep = 100, hf1 = hf1, main=NULL, xlab=NULL, ylab=NULL)
 w.diagnosis(mydata, w.order = 2, n.rep = 100, hf2 = hf2, main=NULL, xlab=NULL, ylab=NULL)
 }
@@ -43,7 +43,7 @@ w.diagnosis(mydata, w.order = 2, n.rep = 100, hf2 = hf2, main=NULL, xlab=NULL, y
 Maggie Haitian Wang, Rui Sun, Junfeng Guo, Haoyi Weng, Jack Lee, Inchi Hu, Pak Sham and Benny C.Y. Zee (2016). A fast and powerful W-test for pairwise epistasis testing. Nucleic Acids Research.doi:10.1093/nar/gkw347.
 }
 \seealso{
-\code{\link{wtest}}, \code{\link{hf.calculation}}, \code{\link{w.qqplot}}
+\code{\link{wtest}}, \code{\link{hf}}, \code{\link{w.qqplot}}
 }
 \author{
 Rui Sun, Maggie Haitian Wang
