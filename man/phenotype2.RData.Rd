@@ -2,10 +2,10 @@
 \alias{phenotype2}
 \docType{data}
 \title{
-A simulated response variable of the genotype-methylation dataset.
+Simulated Phenotype of the genotype-methylation Data
 }
 \description{
-A binary variable indicate the status of 300 individuals (1 = affacted, 0 = unaffacted}
+The phenotype of the 300 individuals (1 = affacted, 0 = unaffacted).}
 \usage{data(phenotype2)}
 \format{
   The format is:

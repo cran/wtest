@@ -1,27 +1,26 @@
-#' W-test for high order interaction analysis
+#' W-test for High Order Interaction Analysis
 #'
 #' @description {This function performs the \code{W-test} to calculate high-order interactions in case-control studies
 #' for categorical data sets. The test measures target variables' distributional difference between cases and controls via a combined
-#' log of odds ratio. It follows a chi-squared probability distribution with data-adaptive degrees of freedom. For pairwise interaction
-#' calculation, the user has 3 options: (1) calculate a single pair's W-value, (2) calculate pairwise or high-order interaction for a list of variables,
-#' which p-values are smaller than a threshold (\code{input.pval}); (3) calculate the pairwise or high-order interaction exhaustively for all variables.
-#' For both main effect and interaction effect calculation, the output can be filtered by p-values, such that only sets with smaller p-value
-#' than a threshold (\code{output.pval}) will be returned.}
-#' @param data a data frame or matrix contains genotypes in the columns. Genotypes should be coded as (0, 1, 2) or (0, 1).
-#' @param y a numeric vector composed of 0 or 1; or a factor variable with two levels.
+#' log of odds ratio. It follows a Chi-squared probability distribution with data-adaptive degrees of freedom. For high-order interaction
+#' calculation, the user has 3 options: (1) calculate W-test of a set of SNPs, (2) calculate high-order interaction for a list of variables,
+#' which p-values are smaller than a threshold (\code{input.pval}); (3) calculate high-order interaction exhaustively for all variables.
+#' Output can be filtered by p-values, such that only sets with smaller p-value than a threshold (\code{output.pval}) will be returned.}
+#' @param data a data frame or matrix containing genotypes in the columns. Genotypes should be coded as (0, 1, 2) or (0, 1).
+#' @param y a numeric vector of 0 or 1, or a factor variable with two levels.
 #' @param w.order an integer value, indicating the order of high-way interactions. For example, \code{w.order} = 3 for three-way interaction analysis.
-#' @param hf1 a data frame or matrix, contains the \emph{h} and \emph{f} values for main effect (w.order =1) calculation at the number of categorical combinations (\emph{k}) = 2 or 3. Default \emph{hf1} is \emph{h} = \emph{k}/(\emph{k}-1) and \emph{f} = \emph{k}-1, where \emph{k} = 2 to 3, in which the first row is the \emph{h} and \emph{f} for \emph{k} = 2, and second row is the \emph{h} and \emph{f} for \emph{k} = 3.
-#' @param hf.high.order a data frame or matrix, contains the \emph{h} and \emph{f} values for high-order interaction effect calculation (w.order > 1). Default \emph{hf.high.order} is \emph{h} = \emph{k}/(\emph{k}-1) and \emph{f} = \emph{k}-1, where \emph{k} is the number of genotype categories of a cluster of SNPs.
-#' @param which.pair a numeric vector, with length = \code{w.order}. It contains the column number of the variable set to calculate. If which.pair is specified, the w.value for that set is returned. Default \code{which.pair} = NULL, when main or interaction effect will be calculated exhaustively.
-#' @param output.pval a p-value threshold for filtering the output. If NULL, all the results will be listed; otherwise, the function will only output the results with p-values smaller than the output.pval.
+#' @param hf1 \emph{h} and \emph{f} values to calculate main effect, organized as a matrix, with columns (\emph{k}, \emph{h}, \emph{f}), \emph{k} = 2 to 3.
+#' @param hf.high.order \emph{h} and \emph{f} values to calculate high-order interactions, organized as a matrix, with columns (\emph{k}, \emph{h}, \emph{f}), where \emph{k} is the number of genotype combinations of a set of SNPs.
+#' @param which.marker a numeric vector indicating the column index of a set of SNPs to calculate. Default \code{which.marker} = NULL gives an exhaustively high-order interaction calculation.
+#' @param output.pval a p-value threshold for filtering the output. If NULL, all the results will be listed; otherwise, the function will only output the results with p-values smaller than the \code{output.pval}.
 #' @param sort a logical value indicating whether or not to sort the output by p-values in ascending order. Default = TRUE.
-#' @param input.pval a p-value threshold to select markers for high-order interaction calculation, used only when \code{w.order} > 1. When specified, only markers with main effect p-value smaller than input.pval will be passed to interaction effect calculation. Default = 0.10. Set \code{input.pval} = NULL or 1 for exhaustive pairwise calculation.
-#' @param input.poolsize an integer, with value less than the number of input variables. It is an optional filter to control the maximum number of variables to execute high-order interaction calculation, used only when \code{w.order} > 2. It selects top input.poolsize number of variables to calculate pairwise interactions. It can be used separately or jointly with \code{input.pval}, whichever gives smaller input variable pool size. Default = 10. Set \code{input.poolsize} = NULL for exhaustive pairwise calculation. It can be useful when the user is exploring the data, and there may be a large number of variables with extremely small main effect p-values.
+#' @param input.pval a p-value threshold to select markers for high-order interaction calculation, used only when \code{w.order} > 2. When specified, only markers with main effect p-value smaller than \code{input.pval} will be passed to interaction effect calculation. Default = 0.10. Set \code{input.pval} = NULL or 1 for exhaustive calculation.
+#' @param input.poolsize an integer, with value less than the number of input variables. It is an optional filter to control the maximum number of variables to include in high-order interaction calculation, used only when \code{w.order} > 2. When specified, the function selects top \code{input.poolsize} number of variables to calculate interactions. It can be used separately or jointly with \code{input.pval}, whichever gives smaller input pool size. Default = 10. Set \code{input.poolsize} = NULL for exhaustive calculation. It can be useful for data exploration, when there are a large number of variables with extremely small main effect p-values.
 #' @return An object \code{"wtest"} containing:
 #'
 #' \item{order}{the "w.order" specified.}
 #'
-#' \item{results}{When order > 1 and which.pair = NULL, the test results include: (for pair) [pair name, W-value, k, p-value]; (for first variable in the pair) [W-value, k, p-value]; (for second variable in the pair) [W-value, k, p-value]...}
+#' \item{results}{When order > 2 and which.marker = NULL, the test results include: (information of a set) [SNPs name, W-value, k, p-value]; (Information of the first variable in the set) [W-value, k, p-value]; (Information of the second variable in the set) [W-value, k, p-value] ...}
 #'
 #' \item{hf1}{The \emph{h} and \emph{f} values used in main effect calculation.}
 #'
@@ -35,36 +34,36 @@
 #' value \emph{h} = (\emph{k}-1)/\emph{k}, and \emph{f} = \emph{k}-1. When sample size is small and there is population stratification, the \emph{h} and
 #' \emph{f} will vary to correct for distributional bias caused by the data structure.}
 #'
-#' {When \code{w.order} > 1, the \code{wtest()} will automatically calculate the main effect first and then do a pre-filter before calculating interactions.
+#' {When \code{w.order} > 2, the \code{wtest()} will automatically calculate the main effect first and then do a pre-filter before calculating interactions.
 #' This filtering is to avoid overloading the memory before having a better understanding of the data. User can specify a smaller input.pval such as 0.05 or 0.001
-#' for less output, or \code{input.pval}=1 or NULL for exhaustive pairwise calculation. Another optional filter is input.poolsize. It will take the top \code{input.poolsize}
-#' number of variables to calculated pairwise effect exhaustively, selected by smallest p-value; when used together with \code{input.pval}, the smaller set will be passed to pairwise calculation.}
+#' for less output, or \code{input.pval}=1 or NULL for exhaustive high-order interaction calculation. Another optional filter is \code{input.poolsize}. It will select the top \code{input.poolsize}
+#' number of variables, ranked by p-values, to calculate high-order interactions. When used together with \code{input.pval}, the algorithm selects the smaller set in the high-order calculation.}
 #'
 #' @examples
-#' data(mydata)
+#' data(diabetes.geno)
 #' data(phenotype1)
 #'
-#' ## Step 1. HF Calculation.
+#' ## Step 1. HF Calculation
 #' # Please note that parameter B is recommended to be greater than 400 for w.order = 1 or 2.
 #' # For high order interaction analysis (w.order > 2), it is recommended to use default n.sample.
-#' hf1 <- hf(data = mydata, w.order = 1, B = 100)
-#' hf.high <- hf(data = mydata, w.order = 3, B = 30, n.marker = 10)
+#' hf1 <- hf(data = diabetes.geno, w.order = 1, B = 100)
+#' hf.high <- hf(data = diabetes.geno, w.order = 3, B = 30, n.marker = 10)
 #'
-#' ## Step 2. Application
-#' w1 <- wtest.high(mydata, phenotype1, w.order = 1, hf1 = hf1)
-#' w3 <- wtest.high(mydata, phenotype1, w.order = 3, input.pval = 0.3,
+#' ## Step 2. W-test Calculation
+#' w1 <- wtest.high(diabetes.geno, phenotype1, w.order = 1, hf1 = hf1)
+#' w3 <- wtest.high(diabetes.geno, phenotype1, w.order = 3, input.pval = 0.3,
 #'             input.poolsize = 50, output.pval = 0.5, hf1 = hf1, hf.high.order = hf.high)
-#' w.pair <- wtest.high(mydata, phenotype1, w.order = 3, which.pair = c(10,13,20),
+#' w.set <- wtest.high(diabetes.geno, phenotype1, w.order = 3, which.marker = c(10,13,20),
 #'             hf.high.order = hf.high)
 #' @export
 #' @author Rui Sun, Maggie Haitian Wang
-#' @references Maggie Haitian Wang, Rui Sun, Junfeng Guo, Haoyi Weng, Jack Lee, Inchi Hu, Pak Sham and Benny C.Y. Zee (2016). A fast and powerful W-test for pairwise epistasis testing. Nucleic Acids Research.doi:10.1093/nar/gkw347.
+#' @references Maggie Haitian Wang, Rui Sun, Junfeng Guo, Haoyi Weng, Jack Lee, Inchi Hu, Pak Sham and Benny C.Y. Zee (2016). A fast and powerful W-test for pairwise epistasis testing. Nucleic Acids Research. doi:10.1093/nar/gkw347.
 #' @seealso \code{\link{hf}}, \code{\link{w.diagnosis}}, \code{\link{w.qqplot}}
 #' @importFrom utils combn
 #' @importFrom stats pchisq
 
 wtest.high<-function(data,y,w.order=3,hf1="default.hf1",hf.high.order="default.high",
-                which.pair=NULL,output.pval=NULL,sort=TRUE,input.pval=0.10,input.poolsize=10){
+                which.marker=NULL,output.pval=NULL,sort=TRUE,input.pval=0.10,input.poolsize=10){
   suppressWarnings(if(typeof(hf1)=="character"){
     hf1=array(c(0.5,0.667,1,2),dim=c(2,2))}else{hf1=hf1[,2:3]})
   suppressWarnings(if(typeof(hf.high.order)=="character"){
@@ -76,13 +75,13 @@ wtest.high<-function(data,y,w.order=3,hf1="default.hf1",hf.high.order="default.h
     stop("NA occurs in data")
   if(!all(data %in% c(0,1,2)))
     stop("all the genotypes in 'data' must be 0, 1 or 2")
-  if(!is.null(which.pair) & length(which.pair)!=w.order)
-    stop(gettextf("the length of 'which.pair' is %d, should equal to %d (the number of 'w.order' defined)",length(which.pair),w.order))
+  if(!is.null(which.marker) & length(which.marker)!=w.order)
+    stop(gettextf("the length of 'which.marker' is %d, should equal to %d (the number of 'w.order' defined)",length(which.marker),w.order))
   if(length(y)!=nrow(data))
     stop("'data' and 'y' must have the same length")
   n.snp<-ncol(data)
-  if(!is.null(which.pair)){
-    set<-list(which.pair)
+  if(!is.null(which.marker)){
+    set<-list(which.marker)
   }else if(w.order==1){
     set<-lapply(1:n.snp,list)
   }else if(w.order > 1){
@@ -131,7 +130,7 @@ wtest.high<-function(data,y,w.order=3,hf1="default.hf1",hf.high.order="default.h
   if(w.order>1){
     snps.names<-paste0("marker",c(1:w.order))
     colnames.result.all<-c(snps.names,"w","k","p-value","adjusted.p-value")
-    if(!(is.null(input.pval) & is.null(input.poolsize)) & is.null(which.pair)){
+    if(!(is.null(input.pval) & is.null(input.poolsize)) & is.null(which.marker)){
       for(i in 1:w.order){
         result.all<-cbind(result.all,result.order1.all[result.all[,i],2:4])
         main.snp.name<-c(paste0("marker",i,".w"),paste0("marker",i,".k"),paste0("marker",i,".p-value"))
@@ -158,7 +157,7 @@ wtest.high<-function(data,y,w.order=3,hf1="default.hf1",hf.high.order="default.h
   hf1<-cbind(k,hf1)
   k<-c(2:(nrow(hf.high.order)+1))
   hf.high.order<-cbind(k,hf.high.order)
-  if(!is.null(which.pair)){
+  if(!is.null(which.marker)){
     result.all <- result.all[,-ncol(result.all)]
   }
   return(list(order=w.order, results = result.all))

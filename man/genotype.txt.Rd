@@ -2,15 +2,15 @@
 \alias{genotype}
 \docType{data}
 \title{
-An example genotype dataset.
+Example Genotype Data
 }
 \description{
-This simulated dataset contains 300 individuals and 200 SNPs.
+This simulated data frame contains 300 individuals and 200 SNPs.
 }
 \usage{data(genotype)}
 \format{
   The format is:
-  300 subjects by rows and its corresponding genotype variables by columns.
+  subjects by rows, and genotype by columns.
 }
 
 \keyword{datasets}

@@ -2,22 +2,22 @@
 % Please edit documentation in R/maf.R
 \name{maf}
 \alias{maf}
-\title{Minor allele frequency}
+\title{Minor Allele Frequency}
 \usage{
-maf(data, which.marker = NULL)
+maf(data, which.snp = NULL)
 }
 \arguments{
-\item{data}{a data frame or matrix contains genotypes in the columns. Genotypes should be coded as (0, 1, 2) or (0, 1).}
+\item{data}{a data frame or matrix containing genotypes in the columns. Genotypes should be coded as (0, 1, 2) or (0, 1).}
 
-\item{which.marker}{a numeric vector with length = w.order indicates which SNP to calculate the MAF. When which.marker = NULL, MAF of all the markers is calculated. Default is NULL.}
+\item{which.snp}{a numeric value, indicating which SNP to calculate. When which.snp = NULL, MAF of all the markers is calculated. Default is NULL.}
 }
 \value{
-The MAF of one marker
+The MAF of one marker.
 }
 \description{
-Function to calculate minor allele frequencies.
+Calculate minor allele frequency.
 }
 \examples{
-data(mydata)
-result<-maf(mydata, which.marker=10)
+data(diabetes.geno)
+result <- maf(diabetes.geno, which.snp=10)
 }

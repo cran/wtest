@@ -5,49 +5,49 @@
 \title{W-test}
 \usage{
 wtest(data, y, w.order = c(1, 2), hf1 = "default.hf1",
-  hf2 = "default.hf2", which.pair = NULL, output.pval = NULL,
+  hf2 = "default.hf2", which.marker = NULL, output.pval = NULL,
   sort = TRUE, input.pval = 0.1, input.poolsize = 150)
 }
 \arguments{
-\item{data}{a data frame or matrix contains genotypes in the columns. Genotypes should be coded as (0, 1, 2) or (0, 1).}
+\item{data}{a data frame or matrix containing genotypes in the columns. Genotypes should be coded as (0, 1, 2) or (0, 1).}
 
-\item{y}{a numeric vector composed of 0 or 1; or a factor variable with two levels.}
+\item{y}{a numeric vector of 0 or 1, or a factor variable with two levels.}
 
-\item{w.order}{an integer value of 0 or 1. \code{w.order} = 1 for main effect calculation; \code{w.order} = 2, for pairwise calculation.}
+\item{w.order}{an integer value of 0 or 1. \code{w.order} = 1 for main effect calculation; \code{w.order} = 2 for pairwise calculation.}
 
-\item{hf1}{a data frame or matrix, contains the \emph{h} and \emph{f} values for main effect (w.order =1) calculation at the number of categorical combinations (\emph{k}) = 2 or 3. Default \emph{hf1} is \emph{h} = \emph{k}/(\emph{k}-1) and \emph{f} = \emph{k}-1, where \emph{k} = 2 to 3, in which the first row is the \emph{h} and \emph{f} for \emph{k} = 2, and second row is the \emph{h} and \emph{f} for \emph{k} = 3.}
+\item{hf1}{\emph{h} and \emph{f} values to calculate main effect, organized as a matrix, with columns (\emph{k}, \emph{h}, \emph{f}), \emph{k} = 2 to 3. Needed when \code{w.order} = 1.}
 
-\item{hf2}{a data frame or matrix, contains the \emph{h} and \emph{f} values for pairwise interaction effect calculation (w.order=2) when \emph{k} = 2 to 9. Default \emph{hf2} is \emph{h} = \emph{k}/(\emph{k}-1) and \emph{f} = \emph{k}-1, where \emph{k} = 2 to 9, the first row is the \emph{h} and \emph{f} for \emph{k} = 2, and the last row is the \emph{h} and \emph{f} for \emph{k} = 9.}
+\item{hf2}{\emph{h} and \emph{f} values to calculate interaction associations, organized as a matrix, with columns (\emph{k}, \emph{h}, \emph{f}), \emph{k} = 2 to 9. Needed when \code{w.order} = 2.}
 
-\item{which.pair}{a numeric vector, with length = \code{w.order}. It contains the column number of the variable set to calculate. If which.pair is specified, the w.value for that set is returned. Default \code{which.pair} = NULL, when main or interaction effect will be calculated exhaustively.}
+\item{which.marker}{a numeric vector, when \code{w.order} = 1, a single value indicating the column index of a SNP to calculate, when \code{w.order} = 2, a vector indicating the column index of a SNP-pair to calculate. Default \code{which.marker} = NULL means main or interaction effect will be calculated exhaustively.}
 
-\item{output.pval}{a p-value threshold for filtering the output. If NULL, all the results will be listed; otherwise, the function will only output the results with p-values smaller than the output.pval.}
+\item{output.pval}{a p-value threshold for filtering the output. If NULL, all the results will be listed; otherwise, the function will only output the results with p-values smaller than the \code{output.pval}.}
 
 \item{sort}{a logical value indicating whether or not to sort the output by p-values in ascending order. Default = TRUE.}
 
-\item{input.pval}{a p-value threshold to select markers for pairwise calculation, used only when \code{w.order} = 2. When specified, only markers with main effect p-value smaller than input.pval will be passed to interaction effect calculation. Default = 0.10. Set \code{input.pval} = NULL or 1 for exhaustive pairwise calculation.}
+\item{input.pval}{a p-value threshold to select markers for pairwise calculation, used only when \code{w.order} = 2. When specified, only markers with main effect p-value smaller than \code{input.pval} will be passed to interaction effect calculation. Default = 0.10. Set \code{input.pval} = NULL or 1 for exhaustive pairwise calculation.}
 
-\item{input.poolsize}{an integer, with value less than the number of input variables. It is an optional filter to control the maximum number of variables to execute pairwise calculation, used only when \code{w.order} = 2. It selects top input.poolsize number of variables to calculate pairwise interactions. It can be used separately or jointly with \code{input.pval}, whichever gives smaller input variable pool size. Default = 50. Set \code{input.poolsize} = NULL for exhaustive pairwise calculation. It can be useful when the user is exploring the data, and there may be a large number of variables with extremely small main effect p-values.}
+\item{input.poolsize}{an integer, with value less than the number of input variables. It is an optional filter to control the maximum number of variables to include in pairwise calculation, used only when \code{w.order} = 2. When specified, the function selects top \code{input.poolsize} number of variables to calculate pairwise interactions. It can be used separately or jointly with \code{input.pval}, whichever gives smaller input variable pool size. Default = 50. Set \code{input.poolsize} = NULL for exhaustive pairwise calculation. It can be useful for data exploration, when there are a large number of variables with extremely small main effect p-values.}
 }
 \value{
 An object \code{"wtest"} containing:
 
 \item{order}{the "w.order" specified.}
 
-\item{results}{When order = 1, the test results include: the ID of SNP, the W value, \emph{k}, and p value. When order = 2 and which.pair = NULL, the test results include: (for pair, column 1-3) [pair name, W-value, k, p-value]; (for first variable in the pair, column 4-6) [W-value, k, p-value]; (for second variable in the pair, column 7-8) [W-value, k, p-value].}
+\item{results}{When \code{w.order} = 1, the test results include: the ID of SNP, the W value, \emph{k}, and p-value. When \code{w.order} = 2 and \code{which.marker} = NULL, the test results include: (information of the pair, column 1-5) [SNP1 name, SNP2, name, W-value, k, p-value]; (Information of the first variable in the pair, column 6-8) [W-value, k, p-value]; (Information of the second variable in the pair, column 9-11) [W-value, k, p-value].}
 
 \item{hf1}{The \emph{h} and \emph{f} values used in main effect calculation.}
 
-\item{hf2}{The \emph{h} and \emph{f} values used in pairwise calculation.}
+\item{hf2}{The \emph{h} and \emph{f} values used in pairwise interaction calculation.}
 }
 \description{
 {This function performs the \code{W-test} to calculate main effect or pairwise interactions in case-control studies
 for categorical data sets. The test measures target variables' distributional difference between cases and controls via a combined
-log of odds ratio. It follows a chi-squared probability distribution with data-adaptive degrees of freedom. For pairwise interaction
+log of odds ratio. It follows a Chi-squared probability distribution with data-adaptive degrees of freedom. For pairwise interaction
 calculation, the user has 3 options: (1) calculate a single pair's W-value, (2) calculate pairwise interaction for a list of variables,
 which p-values are smaller than a threshold (\code{input.pval}); (3) calculate the pairwise interaction exhaustively for all variables.
-For both main effect and interaction effect calculation, the output can be filtered by p-values, such that only sets with smaller p-value
-than a threshold (\code{output.pval}) will be returned. The W-test is also available for rare variant analysis in \code{zfa} package.}
+For both main and interaction calculation, the output can be filtered by p-values, such that only sets with smaller p-value
+than a threshold (\code{output.pval}) will be returned. An extension of the W-test for rare variant analysis is available in \code{zfa} package.}
 }
 \details{
 {W-test is a model-free statistical test to measure main effect or pairwise interactions in case-control studies with categorical variables.
@@ -60,26 +60,26 @@ value \emph{h} = (\emph{k}-1)/\emph{k}, and \emph{f} = \emph{k}-1. When sample s
 
 {When \code{w.order} =2, the \code{wtest()} will automatically calculate the main effect first and then do a pre-filter before calculating interactions.
 This filtering is to avoid overloading the memory before having a better understanding of the data. User can specify a smaller input.pval such as 0.05 or 0.001
-for less output, or \code{input.pval}=1 or NULL for exhaustive pairwise calculation. Another optional filter is input.poolsize. It will take the top \code{input.poolsize}
+for less output, or \code{input.pval}=1 or NULL for exhaustive pairwise calculation. Another optional filter is \code{input.poolsize}. It will take the top \code{input.poolsize}
 number of variables to calculated pairwise effect exhaustively, selected by smallest p-value; when used together with \code{input.pval}, the smaller set will be passed to pairwise calculation.}
 }
 \examples{
-data(mydata)
+data(diabetes.geno)
 data(phenotype1)
 
-## Step 1. HF Calculation.
+## Step 1. HF Calculation
 # Please note that parameter B is recommended to be greater than 400.
-hf1 <- hf(data = mydata, w.order = 1, B = 100)
-hf2 <- hf(data = mydata, w.order = 2, B = 50)
+hf1 <- hf(data = diabetes.geno, w.order = 1, B = 100)
+hf2 <- hf(data = diabetes.geno, w.order = 2, B = 50)
 
-## Step 2. Application
-w1 <- wtest(mydata, phenotype1, w.order = 1, hf1 = hf1)
-w2 <- wtest(mydata, phenotype1, w.order = 2, input.pval = 0.3,
+## Step 2. W-test Calculation
+w1 <- wtest(diabetes.geno, phenotype1, w.order = 1, hf1 = hf1)
+w2 <- wtest(diabetes.geno, phenotype1, w.order = 2, input.pval = 0.3,
             input.poolsize = 50, output.pval = 0.01, hf1 = hf1, hf2 = hf2)
-w.pair <- wtest(mydata, phenotype1, w.order = 2, which.pair = c(10,13), hf2 = hf2)
+w.pair <- wtest(diabetes.geno, phenotype1, w.order = 2, which.marker = c(10,13), hf2 = hf2)
 }
 \references{
-Maggie Haitian Wang, Rui Sun, Junfeng Guo, Haoyi Weng, Jack Lee, Inchi Hu, Pak Sham and Benny C.Y. Zee (2016). A fast and powerful W-test for pairwise epistasis testing. Nucleic Acids Research.doi:10.1093/nar/gkw347.
+Maggie Haitian Wang, Rui Sun, Junfeng Guo, Haoyi Weng, Jack Lee, Inchi Hu, Pak Sham and Benny C.Y. Zee (2016). A fast and powerful W-test for pairwise epistasis testing. Nucleic Acids Research. doi:10.1093/nar/gkw347.
 
 Maggie Haitian Wang, Haoyi Weng, Rui Sun, Jack Lee, William K.K. Wu, Ka Chun Chong, Benny C.Y. Zee. (2017). A Zoom-Focus algorithm (ZFA) to locate the optimal testing region for rare variant association tests. Bioinformatics, 33(15), 2330-2336.
 }

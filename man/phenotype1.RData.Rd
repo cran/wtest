@@ -2,7 +2,7 @@
 \alias{phenotype1}
 \docType{data}
 \title{
-A real response variable of the type II diabetes genotype dataset.
+Phenotype of the diabetes.geno Data
 }
 \description{
 A binary variable indicate the status of 115 individuals (1 = affacted, 0 = unaffacted).

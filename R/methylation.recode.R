@@ -1,5 +1,5 @@
-#' Recode methylation data
-#' @description {This function performs redocing for methylation data by a K-means clustering method. The methylation data set will be recoded into two (high and low) levels according to the methylated level of each CpG site.}
+#' Recode Methylation Data
+#' @description {Code a CpG variable into two levels (high and low) by the two-mean clustering method.}
 #' @param data a data frame or matrix contains methylation data in the columns.
 #' @examples
 #' data(methylation)

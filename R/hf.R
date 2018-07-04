@@ -35,25 +35,25 @@ W.null.calculate.for.hf<-function(w.order,n.sample,n.marker,data){
   return(mean.variance)
 }
 
-#' Parameters calculation for adjustment of W-test
+#' Patameter Estimation for W-test Probability Distribution
 #'
-#' @description Function to estimate parameters (\emph{h} and \emph{f}) for \code{W-test}
-#' @param B a numeric number specify the number of replicates. Default is 400.
-#' @param data a data frame or matrix contains genotypes in the columns. Genotypes should be coded as (0, 1, 2) or (0, 1).
-#' @param w.order a numeric number taking values 1 or 2. If \code{w.order} = 1, main effect is calculated. If \code{w.order} = 2, pairwise interaction effect is calculated.
-#' @param n.sample a numeric number specify the number of samples to be involved for estimating parameters. Default is the total number of samples in the data.
-#' @param n.marker a numeric value, the number of biomarkers to use in bootstrapping. Default is the minumn value of total number of markers and 1,000 markers for order =1, and 50 markers for order =2.
-#' @return a set of parameters indexed by \emph{k}, obtained automatically. For main effect, \emph{k} is the number of levels of a predictor variable. For pairwise interactions, \emph{k} is the number of categorical combinations of a pair.
+#' @description Estimate parameters (\emph{h} and \emph{f}) for \code{W-test}.
+#' @param B a numeric number specifying the number of replicates. Default is 400.
+#' @param data a data frame or matrix containing genotypes in the columns and subjects in the rows. Genotypes should be coded as (0, 1, 2) or (0, 1).
+#' @param w.order a numeric number. \code{w.order} = 1 gives main effect calculation. \code{w.order} = 2 gives pairwise interaction calculation. \code{w.order} > 2 gives high order interaction calculation.
+#' @param n.sample a numeric number specifying the number of samples to be used for estimating parameters. Default is the total number of samples in the data.
+#' @param n.marker a numeric value, the number of biomarkers to include in bootstrapping. For \code{order} = 1, the default = min(P, 1000), and for order = 2, default = min(P, 50). P is the total number of markers in the data.
+#' @return a set of \emph{h} and \emph{f} values indexed by \emph{k}, estimated automatically. For main effect, \emph{k} is the number of levels of a predictor variable. For interactions, \emph{k} is the number of categorical combinations of a variable pair.
 #' @examples
-#' data(mydata)
+#' data(diabetes.geno)
 #'
 #' # Please note that parameter B is recommended to be greater than 400.
 #' # For high order interaction analysis (w.order > 2), it is recommended to use default n.sample.
-#' hf1<-hf(data = mydata, w.order = 1, B = 100)
-#' hf2<-hf(data = mydata, w.order = 2, B = 80)
+#' hf1 <- hf(data = diabetes.geno, w.order = 1, B = 100)
+#' hf2 <- hf(data = diabetes.geno, w.order = 2, B = 80)
 #' @export
 #' @author Rui Sun, Maggie Haitian Wang
-#' @references Maggie Haitian Wang, Rui Sun, Junfeng Guo, Haoyi Weng, Jack Lee, Inchi Hu, Pak Sham and Benny C.Y. Zee (2016). A fast and powerful W-test for pairwise epistasis testing. Nucleic Acids Research.doi:10.1093/nar/gkw347.
+#' @references Maggie Haitian Wang, Rui Sun, Junfeng Guo, Haoyi Weng, Jack Lee, Inchi Hu, Pak Sham and Benny C.Y. Zee (2016). A fast and powerful W-test for pairwise epistasis testing. Nucleic Acids Research. doi:10.1093/nar/gkw347.
 #' @seealso \code{\link{wtest}}, \code{\link{w.diagnosis}}, \code{\link{w.qqplot}}
 #' @importFrom utils combn
 #' @importFrom stats var

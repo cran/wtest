@@ -2,28 +2,29 @@
 % Please edit documentation in R/odds.ratio.R
 \name{odds.ratio}
 \alias{odds.ratio}
-\title{Odds ratio}
+\title{Odds Ratio}
 \usage{
-odds.ratio(data, y, w.order, which.pair)
+odds.ratio(data, y, w.order, which.marker)
 }
 \arguments{
-\item{data}{a data frame or matrix contains genotypes in the columns. Genotypes should be coded as (0, 1, 2) or (0, 1).}
+\item{data}{a data frame or matrix containing genotypes in the columns. Genotypes should be coded as (0, 1, 2) or (0, 1), according to minor allele count.}
 
-\item{y}{a numeric vector.}
+\item{y}{binary values.}
 
-\item{w.order}{a numeric number taking values 1 or 2. If w.order = 1, main effect is calculated. If w.order = 2, pairwise interaction effect is calculated.}
+\item{w.order}{a numeric number taking values 1 or 2. If w.order = 1, odds ratio of main effect is calculated. If w.order = 2, odds ratio of pairwise interaction is calculated.}
 
-\item{which.pair}{a numeric vector with length = w.order indicates which pair to calculate the odds ratio.}
+\item{which.marker}{a numeric vector, when w.order = 1, a single value indicating the column index of the variable to calculate; when w.order = 2, a vector indicating the column index of a SNP-pair to calculate.}
 }
 \value{
-The odds ratio of one marker
+The odds ratio of a SNP or a SNP-pair.
 }
 \description{
-Function to calculate odds ratio of both main effect and pair wise interaction. Odds ratio of pair wise interaction is calculated by the coefficient of the interaction term in Logistic Regression.
+Calculate odds ratio for a single SNP or a pair of SNPs. Single marker odds ratio is computed by contigency table as the odds of disease at minor allele vs the odds of diseases at major allele. Odds ratio of a pair of SNPs is calculated by the Logistic Regression.
 }
 \examples{
-data(mydata)
+data(diabetes.geno)
 data(phenotype1)
-y<-as.numeric(phenotype1)
-result <- odds.ratio(mydata,y,w.order=2,which.pair=c(4,8))
+y <- as.numeric(phenotype1)
+OR.snp4.snp8 <- odds.ratio(diabetes.geno, y, w.order=2, which.marker = c(4,8))
+OR.snp4 <- odds.ratio(diabetes.geno, y, w.order = 1, which.marker = 4)
 }
