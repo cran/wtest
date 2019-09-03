@@ -1,7 +1,7 @@
 #' W P-values Diagnosis by Q-Q Plot
 #' @description Draw a Q-Q plot for W-test
 #' @param data a data frame or matrix containing genotypes in the columns. Genotypes should be coded as (0, 1, 2) or (0, 1).
-#' @param y a numeric vector of 0 or 1, or a factor variable with two levels.
+#' @param y a numeric vector of 0 or 1.
 #' @param w.order a numeric number taking values 1 or 2. \code{w.order} = 1 gives main effect Q-Q plot. \code{w.order} = 2 gives interaction Q-Q plot.
 #' @param hf1 \emph{h} and \emph{f} values to calculate main effect, organized as a matrix, with columns (\emph{k}, \emph{h}, \emph{f}), \emph{k} = 2 to 3. Needed when \code{w.order} = 1.
 #' @param hf2 \emph{h} and \emph{f} values to calculate interaction associations, organized as a matrix, with columns (\emph{k}, \emph{h}, \emph{f}), \emph{k} = 2 to 9. Needed when \code{w.order} = 2.
@@ -35,6 +35,10 @@ w.qqplot<-function(data, y, w.order=c(1,2), input.poolsize=200, hf1="default.hf1
     stop("NA occurs in data")
   if(!all(data %in% c(0,1,2)))
     stop("all the genotypes in 'data' must be 0, 1 or 2")
+  if(any(is.na(y)))
+    stop("NA occurs in y")
+  if(!all(y %in% c(0,1)))
+    stop("all the genotypes in 'y' must be 0 or 1")
   n.snp<-ncol(data)
   if(w.order==1){
     set<-lapply(1:n.snp,list)

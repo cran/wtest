@@ -7,7 +7,7 @@
 #' which p-values are smaller than a threshold (\code{input.pval}); (3) calculate high-order interaction exhaustively for all variables.
 #' Output can be filtered by p-values, such that only sets with smaller p-value than a threshold (\code{output.pval}) will be returned.}
 #' @param data a data frame or matrix containing genotypes in the columns. Genotypes should be coded as (0, 1, 2) or (0, 1).
-#' @param y a numeric vector of 0 or 1, or a factor variable with two levels.
+#' @param y a numeric vector of 0 or 1.
 #' @param w.order an integer value, indicating the order of high-way interactions. For example, \code{w.order} = 3 for three-way interaction analysis.
 #' @param hf1 \emph{h} and \emph{f} values to calculate main effect, organized as a matrix, with columns (\emph{k}, \emph{h}, \emph{f}), \emph{k} = 2 to 3.
 #' @param hf.high.order \emph{h} and \emph{f} values to calculate high-order interactions, organized as a matrix, with columns (\emph{k}, \emph{h}, \emph{f}), where \emph{k} is the number of genotype combinations of a set of SNPs.
@@ -75,10 +75,15 @@ wtest.high<-function(data,y,w.order=3,hf1="default.hf1",hf.high.order="default.h
     stop("NA occurs in data")
   if(!all(data %in% c(0,1,2)))
     stop("all the genotypes in 'data' must be 0, 1 or 2")
+  if(any(is.na(y)))
+    stop("NA occurs in y")
+  if(!all(y %in% c(0,1)))
+    stop("all the genotypes in 'y' must be 0 or 1")
   if(!is.null(which.marker) & length(which.marker)!=w.order)
     stop(gettextf("the length of 'which.marker' is %d, should equal to %d (the number of 'w.order' defined)",length(which.marker),w.order))
   if(length(y)!=nrow(data))
     stop("'data' and 'y' must have the same length")
+  cl <- match.call()
   n.snp<-ncol(data)
   if(!is.null(which.marker)){
     set<-list(which.marker)
@@ -160,5 +165,5 @@ wtest.high<-function(data,y,w.order=3,hf1="default.hf1",hf.high.order="default.h
   if(!is.null(which.marker)){
     result.all <- result.all[,-ncol(result.all)]
   }
-  return(list(order=w.order, results = result.all))
+  return(list(call = cl, order=w.order, results = result.all))
 }

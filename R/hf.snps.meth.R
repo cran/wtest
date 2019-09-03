@@ -26,7 +26,7 @@ W.null.calculate.for.hf.set<-function(w.order, y, n.sample, n.pair, data, data.m
 #' @param B a numeric number specifying the number of bootstrapping times. Default is 400.
 #' @param geno a data frame or matrix containing genotypes in the columns. Genotypes should be coded as (0, 1, 2) or (0, 1). SNP names should be stored as column names.
 #' @param meth a data frame or matrix containing methylation data in the columns. Methylation data should be recoded as (0, 1, 2) or (0, 1). Names of CpG sites should be stored as column names.
-#' @param y a numeric vector of 0 or 1, or a factor variable with two levels.
+#' @param y a numeric vector of 0 or 1.
 #' @param geno.pos a data frame containing SNP names and positions in two columns.
 #' @param meth.pos a data frame containing CpG names and positions in two columns.
 #' @param window.size a numeric number specifying the size of genome distance. Interaction of the SNPs and CpG sites located within the size of genome distance will be evaluated exhaustively.
@@ -58,6 +58,10 @@ hf.snps.meth<-function(B = 400, geno, meth, y, geno.pos, meth.pos, window.size, 
     stop("all the genotypes in 'data.genotype' must be 0, 1 or 2")
   if(!is.numeric(B))
     B <- as.numeric(B)
+  if(any(is.na(y)))
+    stop("NA occurs in y")
+  if(!all(y %in% c(0,1)))
+    stop("all the genotypes in 'y' must be 0 or 1")
   set <- apply(array(2, dim=c(B,1)), 1, list)
 
   snp.names <- colnames(geno)

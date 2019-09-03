@@ -5,14 +5,15 @@
 \title{W-test for Gene-methylation Interaction Analysis}
 \usage{
 wtest.snps.meth(geno, meth, y, geno.pos, meth.pos, window.size = 10000,
-  hf = "default.hf", output.pval = NULL, sort = TRUE)
+  hf = "default.hf", output.pval = NULL, sort = TRUE,
+  which.marker = NULL)
 }
 \arguments{
 \item{geno}{a data frame or matrix containing genotypes in the columns and subjects in the rows. Genotypes should be coded as (0, 1, 2) or (0, 1). SNP names should be stored as column names of the data.}
 
 \item{meth}{a data frame or matrix containing methylation data in the columns. Methylation data should be recoded as (0, 1, 2) or (0, 1). Names of CpG sites should be stored as column names of the data.}
 
-\item{y}{a numeric vector of 0 or 1; or a factor variable with two levels.}
+\item{y}{a numeric vector of 0 or 1.}
 
 \item{geno.pos}{a data frame containing SNP names and positions in two columns.}
 
@@ -25,6 +26,8 @@ wtest.snps.meth(geno, meth, y, geno.pos, meth.pos, window.size = 10000,
 \item{output.pval}{a p-value threshold for filtering the output. If NULL, all results will be listed; otherwise, the function will only output the results with p-values smaller than \code{output.pval}.}
 
 \item{sort}{a logical value indicating whether or not to sort the output by p-values in ascending order. Default = TRUE.}
+
+\item{which.marker}{a vector indicating the column index of a SNP-CpG pair to calculate. Default \code{which.marker} = NULL means interaction pairs located within \code{window.size} will be calculated exhaustively.}
 }
 \value{
 An object \code{"wtest.snps.meth"} containing:

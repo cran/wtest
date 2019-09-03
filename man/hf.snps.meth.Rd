@@ -14,7 +14,7 @@ hf.snps.meth(B = 400, geno, meth, y, geno.pos, meth.pos, window.size,
 
 \item{meth}{a data frame or matrix containing methylation data in the columns. Methylation data should be recoded as (0, 1, 2) or (0, 1). Names of CpG sites should be stored as column names.}
 
-\item{y}{a numeric vector of 0 or 1, or a factor variable with two levels.}
+\item{y}{a numeric vector of 0 or 1.}
 
 \item{geno.pos}{a data frame containing SNP names and positions in two columns.}
 

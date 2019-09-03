@@ -11,7 +11,7 @@ wtest(data, y, w.order = c(1, 2), hf1 = "default.hf1",
 \arguments{
 \item{data}{a data frame or matrix containing genotypes in the columns. Genotypes should be coded as (0, 1, 2) or (0, 1).}
 
-\item{y}{a numeric vector of 0 or 1, or a factor variable with two levels.}
+\item{y}{a numeric vector of 0 or 1.}
 
 \item{w.order}{an integer value of 0 or 1. \code{w.order} = 1 for main effect calculation; \code{w.order} = 2 for pairwise calculation.}
 

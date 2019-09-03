@@ -5,13 +5,14 @@
 \title{W-test for High Order Interaction Analysis}
 \usage{
 wtest.high(data, y, w.order = 3, hf1 = "default.hf1",
-  hf.high.order = "default.high", which.marker = NULL, output.pval = NULL,
-  sort = TRUE, input.pval = 0.1, input.poolsize = 10)
+  hf.high.order = "default.high", which.marker = NULL,
+  output.pval = NULL, sort = TRUE, input.pval = 0.1,
+  input.poolsize = 10)
 }
 \arguments{
 \item{data}{a data frame or matrix containing genotypes in the columns. Genotypes should be coded as (0, 1, 2) or (0, 1).}
 
-\item{y}{a numeric vector of 0 or 1, or a factor variable with two levels.}
+\item{y}{a numeric vector of 0 or 1.}
 
 \item{w.order}{an integer value, indicating the order of high-way interactions. For example, \code{w.order} = 3 for three-way interaction analysis.}
 

@@ -4,8 +4,9 @@
 \alias{w.diagnosis}
 \title{W-test Probability Distribution Diagnostic Plot}
 \usage{
-w.diagnosis(data, w.order = c(1, 2), n.rep = 10, n.sample = nrow(data),
-  n.marker = ncol(data), hf1 = "default.hf1", hf2 = "default.hf2", ...)
+w.diagnosis(data, w.order = c(1, 2), n.rep = 10,
+  n.sample = nrow(data), n.marker = ncol(data), hf1 = "default.hf1",
+  hf2 = "default.hf2", ...)
 }
 \arguments{
 \item{data}{a data frame or matrix containing genotypes in the columns. Genotypes should be coded as (0, 1, 2) or (0, 1).}
